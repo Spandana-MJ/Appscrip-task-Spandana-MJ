@@ -1,5 +1,5 @@
-// This is a SERVER COMPONENT — runs on the server (SSR)
-// Data is fetched at request time, enabling SSR with fresh data.
+
+
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -8,26 +8,39 @@ import ProductGrid from '../components/ProductGrid';
 // Server-side data fetching — SSR
 async function getProducts() {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
     const res = await fetch('https://fakestoreapi.com/products', {
-      // Next.js SSR: no-store = always fetch fresh on each request
       cache: 'no-store',
+      signal: controller.signal,
     });
+
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error('Failed to fetch products');
-    return res.json();
-  } catch {
+    const products = await res.json();
+    
+    // Ensure images have proper URLs
+    return products.map(p => ({
+      ...p,
+      image: p.image && p.image.startsWith('http') ? p.image : 'https://via.placeholder.com/300x400?text=Product'
+    }));
+  } catch (error) {
+    console.log('API failed, using fallback data:', error.message);
+    
     // Fallback mock data if API is unavailable
     return Array.from({ length: 18 }, (_, i) => ({
       id: i + 1,
-      title: 'PPXOC Milkyway Dress in Pressed Flowers',
+      title: `PPXOC Milkyway Dress ${i + 1}`,
       price: 49.99 + i * 5,
-      image: 'https://fakestoreapi.com/img/81fAn4Nop5L._AC_UX679_.jpg',
+      image: 'https://via.placeholder.com/300x400?text=Product+Image',
       category: "women's clothing",
     }));
   }
 }
 
 export default async function ShopPage() {
-  // SSR: runs on the server before sending HTML to the client
   const products = await getProducts();
 
   return (
@@ -50,7 +63,7 @@ export default async function ShopPage() {
         </p>
       </section>
 
-      {/* PRODUCT LISTING — client component for interactivity */}
+      {/* PRODUCT LISTING */}
       <ProductGrid products={products} />
 
       <Footer />
