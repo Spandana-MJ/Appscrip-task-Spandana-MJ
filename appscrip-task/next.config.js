@@ -1,3 +1,5 @@
+
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -7,9 +9,12 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'fakestoreapi.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
     ],
   },
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/' : '',
 };
 
 module.exports = nextConfig;

@@ -1,10 +1,11 @@
 
+
 'use client';
 import { useState } from 'react';
-import Image from 'next/image';
 
 export default function ProductCard({ product }) {
   const [liked, setLiked] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const title = product.title || 'Artisan Product';
   const altText = title
@@ -12,17 +13,21 @@ export default function ProductCard({ product }) {
     .replace(/[^a-z0-9 ]/g, '')
     .replace(/\s+/g, '-');
 
+  // Fallback image if FakeStore image fails
+  const fallbackImage = 'https://via.placeholder.com/300x400?text=Product+Image';
+
   return (
     <article className="product-card">
       <div className="product-image-wrap">
-        <Image
-          src={product.image || 'https://fakestoreapi.com/img/81fAn4Nop5L._AC_UX679_.jpg'}
+        <img
+          src={imageError ? fallbackImage : (product.image || fallbackImage)}
           alt={altText}
-          width={300}
-          height={400}
           className="product-image"
-          priority={false}
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          onError={(e) => {
+            setImageError(true);
+            e.target.src = fallbackImage;
+          }}
+          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />
       </div>
 
