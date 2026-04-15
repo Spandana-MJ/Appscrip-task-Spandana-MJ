@@ -1,3 +1,4 @@
+
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
@@ -6,7 +7,6 @@ export default function ProductCard({ product }) {
   const [liked, setLiked] = useState(false);
 
   const title = product.title || 'Artisan Product';
-  // Slug-friendly alt text
   const altText = title
     .toLowerCase()
     .replace(/[^a-z0-9 ]/g, '')
@@ -21,9 +21,8 @@ export default function ProductCard({ product }) {
           width={300}
           height={400}
           className="product-image"
-          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-          loading="lazy"
-          unoptimized
+          priority={false}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
 

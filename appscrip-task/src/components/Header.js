@@ -1,3 +1,4 @@
+
 'use client';
 
 export default function Header() {
@@ -32,16 +33,42 @@ export default function Header() {
             <span />
           </button>
 
-          <a href="/" className="logo-text" aria-label="Mettā Muse Home">
+          {/* LEFT SIDE - LOGO ICON */}
+          <div className="logo-icon-container">
+            <img 
+              src="/images/Logo.png" 
+              alt="Mettā Muse Logo" 
+              className="logo-icon"
+            />
+          </div>
+
+          {/* CENTER - LOGO TEXT */}
+          <a href="/" className="logo-center" aria-label="Mettā Muse Home">
             LOGO
           </a>
 
+          {/* RIGHT SIDE - ICONS + ENG TEXT */}
           <nav className="header-right" aria-label="Utility navigation">
-        
-              <img src="/images/search-normal.png" alt="Search" className="header-icon-img" />
-    <img src="/images/heart.png" alt="Wishlist" className="header-icon-img" />
-    <img src="/images/shopping-bag.png" alt="Bag" className="header-icon-img" />
-    <img src="/images/profile.png" alt="Profile" className="header-icon-img" />
+            <img 
+              src="/images/search-normal.png" 
+              alt="Search" 
+              className="header-icon-img"
+            />
+            <img 
+              src="/images/heart.png" 
+              alt="Wishlist" 
+              className="header-icon-img"
+            />
+            <img 
+              src="/images/shopping-bag.png" 
+              alt="Shopping Bag" 
+              className="header-icon-img"
+            />
+            <img 
+              src="/images/profile.png" 
+              alt="Profile" 
+              className="header-icon-img"
+            />
             <div className="language-box" aria-label="Language selector">
               <span>ENG</span>
               <span style={{ fontSize: 12 }}>▾</span>
